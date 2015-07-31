@@ -23,28 +23,28 @@ So now we also have a csv for the prospecting terms. In this way you can easily 
 ## Peek-a-boo
 So now that we have a file, let's see what it looks like:
 ```
-csvlook profile.csv
+csvlook categories.csv
 ```
 Ouch! That's a mess. Too many columns and too many lines. Let's try and do better.
 ## What do you column?
 Let's try this (the '|' --pipe-- operator takes one command's output and uses it as input for the next):
 ```
-csvcut -c1,3,5 profile.csv | csvlook
+csvcut -c1,3,5 categories.csv | csvlook
 ```
 This way, we only refer to the first, third and fifth columns. Better, but still too long. Let's add one more thing:
 ```
-csvcut -c1,3,5 profile.csv > short_profile.csv
-csvlook short_profile.csv | head
+csvcut -c1,3,5 categories.csv > short_categories.csv
+csvlook short_categories.csv | head
 ```
 With these two commands, we created a new smaller file, and sent the formatted view of the file to a utility that only shows the first 10 lines. 
 What if we want to see the first 20 lines?
 ```
-cat short_profile.csv | head -20
+cat short_categories.csv | head -20
 ```
 ## Insights
 Now that we know how to look at a file, let's see what we can learn about it:
 ```
-csvstats short_profile.csv
+csvstats short_categories.csv
 ```
 The result:
 ```
@@ -74,10 +74,10 @@ You can get an amazing amount of information with a short command!
 ## Filtering & Sorting
 Let's say we want to see a subset of the data, filtered by a line's strength (Weak) and sorted by it's type:
 ```
-csvgrep -c Strength -m Weak short_profile.csv | csvsort -c Type | csvlook
+csvgrep -c Strength -m Weak short_categories.csv | csvsort -c Type | csvlook
 ```
 To create a file with the results:
 ```
-csvgrep -c Strength -m Weak short_profile.csv | csvsort -c Type > weak_categories_by_type.csv
+csvgrep -c Strength -m Weak short_categories.csv | csvsort -c Type > weak_categories_by_type.csv
 ```
 
