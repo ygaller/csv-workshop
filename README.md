@@ -80,4 +80,22 @@ To create a file with the results:
 ```
 csvgrep -c Strength -m Weak short_categories.csv | csvsort -c Type > weak_categories_by_type.csv
 ```
+## Deep diving into the data
+If we really want to dive into the data and manipulate it beyond a simple search, we can take the csv file and refer to it as an SQL table. First up, let's see what our file would look like if it were an SQL table:
+```
+csvsql short_categories.csv
+```
+The result:
+```
+CREATE TABLE short_categories (
+        "Keyword" VARCHAR(35) NOT NULL,
+        "Type" VARCHAR(10) NOT NULL,
+        "Strength" VARCHAR(6)
+);
+```
+From this we see that our table name is short_categories, as well as the names of the column we can refer to. Let's make use of this:
+```
+```
+
+
 
