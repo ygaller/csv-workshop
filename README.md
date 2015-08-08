@@ -4,8 +4,9 @@ The workshop will show you how to process large csv and Excel files using powerf
 
 ## Setup
 
-To get our work environment started, let's go to our work directory and run the script:
+To get our work environment started log in to the server I sent on the Slack channel, and run (don't forget to substitute your name):
 ```
+cd csv_workshop
 ./run_workshop <your name here>
 ```
 This will create a Docker container with your name - This is a sandbox with all the tools that we need already pre-installed.
@@ -44,7 +45,7 @@ cat short_categories.csv | head -20
 ## Insights
 Now that we know how to look at a file, let's see what we can learn about it:
 ```
-csvstats short_categories.csv
+csvstat short_categories.csv
 ```
 The result:
 ```
@@ -83,18 +84,38 @@ csvgrep -c Strength -m Weak short_categories.csv | csvsort -c Type > weak_catego
 ## Deep diving into the data
 If we really want to dive into the data and manipulate it beyond a simple search, we can take the csv file and refer to it as an SQL table. First up, let's see what our file would look like if it were an SQL table:
 ```
-csvsql short_categories.csv
+csvsql categories.csv
 ```
 The result:
 ```
-CREATE TABLE short_categories (
+CREATE TABLE categories (
         "Keyword" VARCHAR(35) NOT NULL,
+        "Keyword is alias" BOOLEAN NOT NULL,
         "Type" VARCHAR(10) NOT NULL,
-        "Strength" VARCHAR(6)
+        "Aliases" VARCHAR(609),
+        "Strength" VARCHAR(6),
+        "Category" VARCHAR(33),
+        "Type_2" VARCHAR(10),
+        CHECK ("Keyword is alias" IN (0, 1))
 );
 ```
-From this we see that our table name is short_categories, as well as the names of the column we can refer to. Let's make use of this:
+From this we see that our table name is categories, as well as the names of the columns we can refer to. Let's make use of this. First run a script that starts a MySQL instance:
 ```
+./init_mysql.sh
+```
+Now let's import our categories and prospecting files into tables. The following commands create tables and import rows from the files:
+```
+csvsql --db mysql://localhost:3306/workshop --insert categories.csv
+csvsql --db mysql://localhost:3306/workshop --insert prospecting.csv
+```
+Let's run mysql. First thing, let's switch to the "workshop" database (already created by the script we ran):
+```
+mysql
+mysql> use workshop;
+```
+You can now go crazy and do whatever MySQL allows you. For example:
+```
+select distinct c.keyword from categories c, prospecting p where c.aliases like '%'||p.`key term`||'%' and p.levels = 'Staff';
 ```
 
 
