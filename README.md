@@ -111,7 +111,10 @@ csvsql --db mysql://localhost:3306/workshop --insert prospecting.csv
 Let's run mysql. First thing, let's switch to the "workshop" database (already created by the script we ran):
 ```
 mysql
-mysql> use workshop;
+```
+In MySql:
+```
+use workshop;
 ```
 You can now go crazy and do whatever MySQL allows you. For example:
 ```
