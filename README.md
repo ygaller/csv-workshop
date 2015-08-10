@@ -7,7 +7,7 @@ The workshop will show you how to process large csv and Excel files using powerf
 To get our work environment started log in to the server I sent on the Slack channel, and run (don't forget to substitute your name):
 ```
 cd csv_workshop
-./run_workshop <your name here>
+./run_workshop.sh <your name here>
 ```
 This will create a Docker container with your name - This is a sandbox with all the tools that we need already pre-installed.
 
